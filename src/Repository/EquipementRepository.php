@@ -45,4 +45,13 @@ class EquipementRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function countByNomCategorie($NomCategorie)
+{
+    return $this->createQueryBuilder('e')
+        ->select('COUNT(e.NomCategorie)')
+        ->where('e.NomCategorie = :NomCategorie')
+        ->setParameter('NomCategorie', $NomCategorie)
+        ->getQuery()
+        ->getSingleScalarResult();
+}
 }

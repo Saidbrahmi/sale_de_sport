@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\Equipement;
 use App\Entity\Categorie;
 use App\Form\CategorieType;
 use App\Repository\CategorieRepository;
@@ -78,4 +78,7 @@ class CategorieController extends AbstractController
 
         return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
     }
+   
+   
+
 }

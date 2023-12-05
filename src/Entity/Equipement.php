@@ -33,7 +33,7 @@ class Equipement
     #[Assert\Positive]
     private ?int $Quantite = null;
 
-    #[ORM\Column( name: "DateAchat" , type: Types::DATE_MUTABLE)]
+    #[ORM\Column( name: "DateAchat" , type: Types::DATETIME_MUTABLE)]
     #[Assert\NotBlank]
     private ?\DateTimeInterface $DateAchat = null;
 

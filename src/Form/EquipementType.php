@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class EquipementType extends AbstractType
 {
@@ -17,7 +18,9 @@ class EquipementType extends AbstractType
         $builder
             ->add('NomEquipement')
             ->add('Quantite')
-            ->add('DateAchat')
+            ->add('DateAchat', DateTimeType::class, [
+                'date_widget' => 'single_text' 
+             ])
             ->add('PrixAchat')
             ->add('IdCategorie' , EntityType::class, [
                 'class' => Categorie::class ,

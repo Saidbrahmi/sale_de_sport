@@ -45,4 +45,16 @@ class CategorieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function countByNomCategorie($NomCategorie)
+{
+    return $this->createQueryBuilder('e')
+        ->select('COUNT(e.IdEquipement)')  // Utilisation d'une colonne unique (par exemple, 'id') pour le comptage.
+        ->join('e.categorie', 'c')  // Assurez-vous que 'categorie' est le nom de la relation dans votre entité Equipment.
+        ->where('c.NomCategorie = :NomCategorie')
+        ->setParameter('NomCategorie', $NomCategorie)
+        ->getQuery()
+        ->getSingleScalarResult();
+}
+
 }

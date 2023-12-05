@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Form\EquipementSearchType;
 use App\Entity\Equipement;
 use App\Form\EquipementType;
 use App\Repository\EquipementRepository;
@@ -10,17 +10,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+
+
 
 #[Route('/equipement')]
 class EquipementController extends AbstractController
 {
-    #[Route('/', name: 'app_equipement_index', methods: ['GET'])]
+#[Route('/', name: 'app_equipement_index', methods: ['GET'])]
+
     public function index(EquipementRepository $equipementRepository): Response
     {
         return $this->render('equipement/index.html.twig', [
             'equipements' => $equipementRepository->findAll(),
         ]);
     }
+   
 
     #[Route('/new', name: 'app_equipement_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -78,4 +84,41 @@ class EquipementController extends AbstractController
 
         return $this->redirectToRoute('app_equipement_index', [], Response::HTTP_SEE_OTHER);
     }
+// stat
+#[Route('/stat', name: 'stat', methods: ['POST','GET'])]
+public function JobStatistics( \App\Repository\EquipementRepository $repo): Response
+{
+    $total = $repo->countByNomcategorie('Cardio') +
+        $repo->countByNomcategorie('Muculation') +
+        $repo->countByNomcategorie('Enseignement');
+
+
+    $CardCount = $repo->countBynomcategorie('Cardio');
+    $MuscCount = $repo->countBynomcategorie('Muculation');
+    $EnseignementCount = $repo->countBynomcategorie('Enseignement');
+
+
+    $CardPercentage = round(($CardCount / $total) * 100);
+    $MuscPercentage = round(($MuscCount / $total) * 100);
+    $EnseignementPercentage = round(($EnseignementCount / $total) * 100);
+
+    return $this->render('Equipement/statistique.html.twig', [
+        'CardPercentage' => $CardPercentage,
+        'MuscPercentage' => $MuscPercentage,
+        'EnseignementPercentage' => $EnseignementPercentage,
+
+
+    ]);
+
 }
+
+   
+}
+
+ 
+    
+
+
+
+  
+
